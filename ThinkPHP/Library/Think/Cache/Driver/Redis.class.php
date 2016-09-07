@@ -32,6 +32,7 @@ class Redis extends Cache
             'host'       => C('REDIS_HOST') ?: '127.0.0.1',
             'port'       => C('REDIS_PORT') ?: 6379,
             'password'   => C('REDIS_PASSWORD') ?: '',
+            'db'         => C('REDIS_DB') ?: '',
             'timeout'    => C('DATA_CACHE_TIMEOUT') ?: false,
             'persistent' => false,
         ), $options);
@@ -47,6 +48,9 @@ class Redis extends Cache
         $this->handler->$func($options['host'], $options['port'], $options['timeout']);
         if ('' != $options['password']) {
             $this->handler->auth($options['password']);
+        }
+        if ('' != $options['db']) {
+            $this->handler->select($options['db']);
         }
     }
 
