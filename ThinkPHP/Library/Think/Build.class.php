@@ -117,7 +117,10 @@ class [MODEL]Model extends Model
             header('Content-Type:text/html; charset=utf-8');
             exit('目录 [ ' . RUNTIME_PATH . ' ] 不可写！');
         }
-        mkdir(CACHE_PATH); // 模板缓存目录
+        // 模板缓存目录
+        if (!is_dir(CACHE_PATH)) {
+            mkdir(CACHE_PATH); 
+        }
         if (!is_dir(LOG_PATH)) {
             mkdir(LOG_PATH);
         }
