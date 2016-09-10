@@ -6,7 +6,7 @@ define('BUILD_DIR_SECURE', false);
 // 开始时间
 define('APP_START_TIME', microtime(true));
 // 默认模块
-define('BIND_MODULE', 'Application');
+define('BIND_MODULE', 'Appdemo');
 // 入口目录
 define('ROOT_PATH', str_replace('\\', '/', dirname(__FILE__)) . '/');
 // 应用目录

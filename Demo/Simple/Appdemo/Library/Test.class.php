@@ -1,5 +1,5 @@
 <?php
-namespace Www\Library;
+namespace Appdemo\Library;
 
 class Test
 {

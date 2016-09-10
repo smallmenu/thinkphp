@@ -1,5 +1,5 @@
 <?php
-namespace Application\Controller;
+namespace Appdemo\Controller;
 
 use Think\Controller;
 
@@ -24,7 +24,7 @@ class IndexController extends Controller
 
         echo PHP_EOL;
 
-        $Test = new \Application\Library\Test();
+        $Test = new \Appdemo\Library\Test();
 
         console(url('index/test'));
     }

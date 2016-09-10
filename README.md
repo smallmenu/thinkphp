@@ -2,6 +2,13 @@
 
 ## ThinkPHP CHANGELOG
 
+```
+- 移除 ThinkPHP 以外的文件和目录
+* ThinkPHP/Library/Think/View.class.php  去除模板输出时 X-Powered-By 信息
+* ThinkPHP/Tpl/*  修改默认模板
+* ThinkPHP/Library/Think/Build.class.php 修复一处 NOTICE 错误
+* ThinkPHP/Library/Think/Cache/Driver/Redis.class.php Redis 驱动增加 db 选择
+```
 
 ## ThinkSDK CHANGELOG
 
@@ -15,7 +22,7 @@
 
 ```
 Simple/
-├── Application  # 默认应用目录，其实这级目录都应该略去，但是好像做不到
+├── Appdemo  # 单应用单模块应用目录，其实这级目录都应该略去，但是好像做不到啊
 │   ├── Common
 │   │   └── function.php
 │   ├── Conf
@@ -31,7 +38,7 @@ Simple/
 │   │   └── js
 │   ├── index.php
 │   └── robots.txt
-└── Runtime  # Linux需要可写
+└── Runtime
 ```
 
 ```

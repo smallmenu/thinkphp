@@ -213,18 +213,20 @@ function console($data, $time = false)
 function env($key = '', $default = null)
 {
     static $envs = null;
-    $env = APP_PATH. '.env';
+    $env = APP_PATH. '.'. APP_ENV;
     $key = trim($key);
 
-    if (!empty($key)) {
-        if (is_null($envs)) {
-            if (is_file($env) !== false && is_readable($env) !== false) {
-                $envs = parse_ini_file($env, true);
-            } else {
-                throw new \Exception('Env File Missing');
-            }
+    if (is_null($envs)) {
+        if (is_file($env) === false && is_readable($env) === false) {
+            throw new \Exception('Env File Missing');
         }
+        $envs = parse_ini_file($env, true);
+        if ($envs === false) {
+            throw new \Exception('Env File Parse Error');
+        }
+    }
 
+    if (!empty($key)) {
         if (strpos($key, '.') !== false) {
             $keys = explode('.', $key);
             $section = $keys[0];
@@ -244,6 +246,8 @@ function env($key = '', $default = null)
         }
     } elseif (!is_null($default)) {
         return $default;
+    } else {
+        return $envs;
     }
 
     return null;
