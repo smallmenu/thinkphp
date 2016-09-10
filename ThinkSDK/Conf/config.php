@@ -14,7 +14,9 @@ return array(
     'ERROR_MESSAGE'        => '系统错误',
 
     /* 日志设置 */
+    'LOG_RECORD'           => true,
     'LOG_FILE_SIZE'        => 20971520,
+    'LOG_EXCEPTION_RECORD' => true,
 
     /* 模板引擎设置 */
     'TMPL_ENGINE_TYPE'     => 'PHP',
