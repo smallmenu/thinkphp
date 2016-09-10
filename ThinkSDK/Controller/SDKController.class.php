@@ -8,7 +8,7 @@ class SDKController extends Controller
     /**
      * @var null
      */
-    protected $app = null;
+    protected $define = null;
 
     /**
      * @var null
@@ -40,7 +40,7 @@ class SDKController extends Controller
      */
     public function _initialize()
     {
-        $this->app = config('app');
+        $this->define = config('define');
         $this->setting = config('setting');
 
         $this->_init();
@@ -55,7 +55,7 @@ class SDKController extends Controller
         /**
          * 初始化 cache 通过domain, prefix, module避免污染，实现应用模块私有缓存
          */
-        $domain = $this->app['DOMAIN'];
+        $domain = $this->define['DOMAIN'];
         if ($cache = config('cache')) {
             $module = strtolower(MODULE_NAME);
             $cache['prefix'] = $domain. ':'. $cache['prefix']. $module . ':';
@@ -70,8 +70,8 @@ class SDKController extends Controller
     private function _assign()
     {
         // assign APP
-        if ($this->app) {
-            $this->assign($this->app);
+        if ($this->define) {
+            $this->assign($this->define);
         }
 
         // assign SEO

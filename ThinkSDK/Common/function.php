@@ -213,7 +213,7 @@ function console($data, $time = false)
 function env($key = '', $default = null)
 {
     static $envs = null;
-    $env = APP_PATH. '.'. APP_ENV;
+    $env = APP_PATH. '.env';
     $key = trim($key);
 
     if (is_null($envs)) {
@@ -251,4 +251,42 @@ function env($key = '', $default = null)
     }
 
     return null;
+}
+
+/**
+ * @return \ThinkSDK\Library\Crypt\Hashids\Hashids
+ */
+function hashid()
+{
+    static $hashid = null;
+
+    $length = 4;
+    $alphabet = 'abcdefghijklmnopqrstuvwxyz1234567890';
+
+    if (is_null($hashid)) {
+        $hashkey = config('APP_HASHID_KEY') ? : '';
+        $hashid = new ThinkSDK\Library\Crypt\Hashids\Hashids($hashkey, $length, $alphabet);
+    }
+
+    return $hashid;
+}
+
+/**
+ * @param $id
+ * @return string
+ */
+function eid($id)
+{
+    $id = intval($id);
+    return hashid()->encode($id);
+}
+
+/**
+ * @param $hash
+ * @return int
+ */
+function did($hash)
+{
+    $decode = hashid()->decode($hash);
+    return !empty($decode) ? $decode[0] : 0;
 }
