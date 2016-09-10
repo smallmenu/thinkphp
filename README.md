@@ -3,6 +3,12 @@
 ## ThinkPHP CHANGELOG
 
 ```
+# 增加 ThinkSDK，用于扩展
++ ThinkSDK/
+
+# 增加 Demo，用户演示与学习
++ Demo/
+
 # 移除 ThinkPHP 以外的文件和目录
 - Application/, Public/,
 
@@ -37,7 +43,7 @@
 
 ```
 Simple/
-├── Appdemo  # 单应用单模块应用目录，其实这级目录都应该略去，但是好像做不到啊
+├── Appdemo  # 单应用单模块应用目录，其实这级目录看着烦，但是好像去掉做不到
 │   ├── Common
 │   │   └── function.php
 │   ├── Conf
