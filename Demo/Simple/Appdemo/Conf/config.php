@@ -10,11 +10,5 @@ return array_merge($THINKSDK_CONFIG,
         'AUTOLOAD_NAMESPACE' => array(
             'ThinkSDK' => THINKSDK_PATH,
         ),
-
-        // 单应用单模块配置覆盖
-        'DEFAULT_FILTER'     => 'htmlspecialchars',
-
-        // 单应用单模块配置
-        'simple'             => 'test',
     )
 );

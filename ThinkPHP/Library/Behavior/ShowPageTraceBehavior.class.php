@@ -20,8 +20,10 @@ class ShowPageTraceBehavior
     // 行为扩展的执行入口必须是run
     public function run(&$params)
     {
-        if (!IS_AJAX && !IS_CLI && C('SHOW_PAGE_TRACE')) {
-            echo $this->showTrace();
+        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'THINK_TRACE') !== false) {
+            if (!IS_AJAX && !IS_CLI && C('SHOW_PAGE_TRACE')) {
+                echo $this->showTrace();
+            }
         }
     }
 

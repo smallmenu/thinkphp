@@ -3,11 +3,26 @@
 ## ThinkPHP CHANGELOG
 
 ```
-- 移除 ThinkPHP 以外的文件和目录
-* ThinkPHP/Library/Think/View.class.php  去除模板输出时 X-Powered-By 信息
-* ThinkPHP/Tpl/*  修改默认模板
-* ThinkPHP/Library/Think/Build.class.php 修复一处 NOTICE 错误
-* ThinkPHP/Library/Think/Cache/Driver/Redis.class.php Redis 驱动增加 db 选择
+# 移除 ThinkPHP 以外的文件和目录
+- Application/, Public/,
+
+# 去除模板输出时 X-Powered-By 信息
+* ThinkPHP/Library/Think/View.class.php
+
+# 修改默认模板
+* ThinkPHP/Tpl/*
+
+# 修复一处目录创建 NOTICE 错误
+* ThinkPHP/Library/Think/Build.class.php
+
+# Redis 驱动增加 db 配置
+* ThinkPHP/Library/Think/Cache/Driver/Redis.class.php
+
+# 调整 SHOW_PAGE_TRACE 触发机制，不仅要开启还需要根据UA控制显示，便于线上调试
+* ThinkPHP/Library/Behavior/*ShowPageTraceBehavior.class.php
+
+# 调整 appException 自定义异常处理函数，让路由错误404，异常输出503，默认全部输出404是不对的
+* ThinkPHP/Library/Think/Think.class.php
 ```
 
 ## ThinkSDK CHANGELOG

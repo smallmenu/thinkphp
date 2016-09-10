@@ -42,10 +42,11 @@ class ChromeShowPageTraceBehavior
     // 行为扩展的执行入口必须是run
     public function run(&$params)
     {
-        if (C('SHOW_PAGE_TRACE')) {
-            $this->showTrace();
+        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'THINK_TRACE') !== false) {
+            if (C('SHOW_PAGE_TRACE')) {
+                $this->showTrace();
+            }
         }
-
     }
 
     /**

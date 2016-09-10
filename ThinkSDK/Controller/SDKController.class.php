@@ -28,12 +28,12 @@ class SDKController extends Controller
     /**
      * @var null
      */
-    public $seo = null;
+    protected $seo = null;
 
     /**
      * @var null
      */
-    public $seos = null;
+    protected $seos = null;
 
     /**
      * initialize
@@ -69,8 +69,12 @@ class SDKController extends Controller
      */
     private function _assign()
     {
-        // Setting SEO
+        // assign APP
+        if ($this->app) {
+            $this->assign($this->app);
+        }
 
+        // assign SEO
         if ($this->setting && isset($this->setting['seo'])) {
             $seoConfig = $this->setting['seo'];
             $module = strtolower(MODULE_NAME);
