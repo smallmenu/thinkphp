@@ -253,8 +253,26 @@ class Think
         $error['trace'] = $e->getTraceAsString();
         Log::record($error['message'], Log::ERR);
         // 发送404信息
-        header('HTTP/1.1 404 Not Found');
-        header('Status:404 Not Found');
+        //header('HTTP/1.1 404 Not Found');
+        //header('Status:404 Not Found');
+
+        // 路由错误->404(未定义_empty时)，其他异常信息->503，并在header隐藏异常
+        if (!empty($error['message'])) {
+            if (strpos($error['message'], '无法加载控制器') !== false
+                || strpos($error['message'], '非法操作') !== false
+                || strpos($error['message'], '无法加载模块') !== false
+            )
+            {
+                header('HTTP/1.1 404 Not Found');
+                header('Status:404 Not Found');
+            } else {
+                header('HTTP/1.1 503 Service Unavailable '. urlencode($error['message']));
+                header('Status:503 Service Unavailable');
+            }
+        } else {
+            header('HTTP/1.1 503 Service Unavailable');
+            header('Status:503 Service Unavailable');
+        }
         self::halt($error);
     }
 
