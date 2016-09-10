@@ -41,10 +41,11 @@ class FireShowPageTraceBehavior
     // 行为扩展的执行入口必须是run
     public function run(&$params)
     {
-        if (C('FIRE_SHOW_PAGE_TRACE', null, true)) {
-            $this->showTrace();
+        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'THINK_TRACE') !== false) {
+            if (C('FIRE_SHOW_PAGE_TRACE', null, true)) {
+                $this->showTrace();
+            }
         }
-
     }
 
     /**
