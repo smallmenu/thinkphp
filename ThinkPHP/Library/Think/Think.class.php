@@ -256,7 +256,7 @@ class Think
         //header('HTTP/1.1 404 Not Found');
         //header('Status:404 Not Found');
 
-        // 路由错误->404(未定义_empty时)，其他异常信息->503，并在header隐藏异常
+        // 路由错误->404(未定义_empty时)，其他异常信息->503，并在 header 隐藏异常信息
         if (!empty($error['message'])) {
             if (strpos($error['message'], '无法加载控制器') !== false
                 || strpos($error['message'], '非法操作') !== false
