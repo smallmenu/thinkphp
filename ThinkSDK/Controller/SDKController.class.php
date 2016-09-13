@@ -23,7 +23,7 @@ class SDKController extends Controller
     /**
      * @var int
      */
-    protected $pagesize = 10;
+    protected $pagesize = 15;
 
     /**
      * @var null

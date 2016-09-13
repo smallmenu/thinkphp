@@ -24,7 +24,7 @@ return array(
 
     /* URL设置 */
     'URL_MODEL'            => 2,
-    'URL_HTML_SUFFIX'      => '',
+    'URL_HTML_SUFFIX'      => 'html',
 
     /* 系统变量名称设置 */
     'CHECK_APP_DIR'        => false,
