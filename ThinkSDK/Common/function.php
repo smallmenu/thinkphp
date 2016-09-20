@@ -262,7 +262,7 @@ function hashid()
 {
     static $hashid = null;
 
-    $length = 4;
+    $length = 5;
     $alphabet = 'abcdefghijklmnopqrstuvwxyz1234567890';
 
     if (is_null($hashid)) {
@@ -596,4 +596,99 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
         }
     }
     return $tree;
+}
+
+/**
+ * 有缓存机制的便捷获取表数据或表主键数据
+ *
+ * @param $table  表名
+ * @param null $id  主键值
+ * @param null $field  要获取的记录字段
+ * @param bool $force  是否强制获取，强制获取依然会用到static缓存，若忽略所有缓存请使用Model
+ * @return null
+ */
+function table($table, $id = null, $field = null, $force = false)
+{
+    $table_cache = 'table_cache:';
+    static $_staticCache;
+
+    if (isset($_staticCache[$table]) && !$force) {
+        return table_return($_staticCache[$table], $id, $field);
+    } else {
+        if ($force) {
+            if (is_null($id)) {
+                static $multiRow;
+                if (!isset($multiRow[$table])) {
+                    $datas = table_select($table);
+                    $multiRow[$table] = $datas;
+                }
+                return $multiRow[$table];
+
+            } else {
+                static $row;
+                $index = $table . '_' . $id;
+                if (!isset($row[$index])) {
+                    $row[$index] = model($table)->find($id);
+                }
+                return is_null($field) && !isset($row[$index][$field]) ? $row[$index] : $row[$index][$field];
+            }
+        } else {
+            if ($_cache = cache($table_cache . $table)) {
+                $_staticCache[$table] = $_cache;
+                return table_return($_staticCache[$table], $id, $field);
+            } else {
+                $datas = table_select($table);
+
+                if ($datas) {
+                    $_staticCache[$table] = $datas;
+                    cache($table_cache . $table, $_staticCache[$table]);
+                    return table_return($_staticCache[$table], $id, $field);
+                }
+            }
+        }
+    }
+}
+
+/**
+ * 为table()函数返回结果
+ *
+ * @param $datas
+ * @param null $id
+ * @param null $field
+ * @return null
+ */
+function table_return($datas, $id = null, $field = null)
+{
+    if (is_null($id)) {
+        return $datas;
+    } else {
+        if (is_null($field)) {
+            return $datas[$id];
+        } else {
+            return isset($datas[$id][$field]) ? $datas[$id][$field] : null;
+        }
+    }
+}
+
+/**
+ * 获取table的所有数据，并格式化索引为表主键
+ *
+ * @param $table
+ * @return mixed
+ */
+function table_select($table)
+{
+    $datas = array();
+    $result = model($table)->select();
+    $pk = model($table)->getPk();
+    if ($result) {
+        foreach ($result as $key => $res) {
+            if (!isset($res[$pk])) {
+                break;
+            }
+            $datas[$res[$pk]] = $res;
+        }
+    }
+
+    return $datas;
 }
