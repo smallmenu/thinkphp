@@ -22,6 +22,7 @@ class Content
         'show-body-only' => true,
         'input-encoding' => 'utf8',
         'output-encoding' => 'utf8',
+        'preserve-entities' => true,
     );
 
     /**
@@ -117,8 +118,8 @@ class Content
             }
             , $content);
 
-        //移除所有的a标签保留文字本身
-        $content = preg_replace('#<a\s[^>]*>(.*?)<\/a>#im', "$1", $content);
+        // 移除所有的a标签保留文字本身
+        $content = preg_replace('#<a\s[^>]*>([\s\S]*?)<\/a>#im', "$1", $content);
 
         //检查不是以p标签开头就加个p标签,不是以/p结尾就加个/p
         if (!preg_match('#^\<p#i', $content)) {
