@@ -97,10 +97,21 @@ class SDKController extends Controller
      */
     protected function httpCode($code)
     {
-        send_http_status($code);
+        if ($code == 404) {
+            $this->_empty();
+        } else {
+            send_http_status($code);
+        }
         exit;
     }
 
+    /**
+     * 不存在Action的时候执行
+     */
+    protected function _empty()
+    {
+        send_http_status(404);
+    }
 
     /**
      * @param $message
