@@ -262,7 +262,7 @@ function hashid()
 {
     static $hashid = null;
 
-    $length = 5;
+    $length = config('APP_HASHID_LENGTH');
     $alphabet = 'abcdefghijklmnopqrstuvwxyz1234567890';
 
     if (is_null($hashid)) {
