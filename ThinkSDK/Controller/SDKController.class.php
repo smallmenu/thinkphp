@@ -123,7 +123,7 @@ class SDKController extends Controller
         $second = intval($second);
         if ($second > 0) {
             // HTTP_CACHE_CONTROL 在ThinkPHP框架模板渲染时输出
-            config('HTTP_CACHE_CONTROL', 'max-age='.$second);
+            config('HTTP_CACHE_CONTROL', 'public,max-age='.$second);
             // 兼容HTTP 1.0 的写法
             header('Expires: '. gmdate('D, d M Y H:i:s', time() + $second). ' GMT');
             header_remove('Pragma');
