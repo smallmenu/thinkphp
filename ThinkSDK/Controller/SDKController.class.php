@@ -126,6 +126,7 @@ class SDKController extends Controller
             config('HTTP_CACHE_CONTROL', 'public,max-age='.$second);
             // 兼容HTTP 1.0 的写法
             header('Expires: '. gmdate('D, d M Y H:i:s', time() + $second). ' GMT');
+            header('Last-Modified: '. gmdate('D, d M Y H:i:s', time() - $second). ' GMT');
             header_remove('Pragma');
         }
     }
