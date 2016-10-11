@@ -692,3 +692,32 @@ function table_select($table)
 
     return $datas;
 }
+
+/**
+ * 简单的构造资源
+ *
+ * @example <link rel="stylesheet" href="<?=assets('www/v1/css/index.css', true)?>">
+ *
+ * @param $src
+ * @param bool $version
+ * @return string
+ */
+function assets($src, $version = false)
+{
+    $assets = $src = trim($src);
+    $assets_url = config('define.ASSETS_URL');
+
+    if (!empty($src)) {
+        if (!$version) {
+            $assets = $assets_url. $src;
+        } else {
+            $srcPath = ASSETS_PATH . $src;
+
+            $mtime = filemtime($srcPath);
+            $mtime = date('YmdHi', $mtime);
+            $concat = strpos($src, '?') === false ? '?v=' : '&v=';
+            $assets = $assets_url. $src . $concat . $mtime;
+        }
+    }
+    return $assets;
+}
