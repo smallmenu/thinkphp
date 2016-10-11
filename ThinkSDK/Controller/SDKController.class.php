@@ -114,6 +114,23 @@ class SDKController extends Controller
     }
 
     /**
+     * HTTP CacheControl缓存控制，主要用于CDN加速情况的动态脚本缓存
+     *
+     * @param $second
+     */
+    protected function httpCacheControl($second = 300)
+    {
+        $second = intval($second);
+        if ($second > 0) {
+            // HTTP_CACHE_CONTROL 在ThinkPHP框架模板渲染时输出
+            config('HTTP_CACHE_CONTROL', 'max-age='.$second);
+            // 兼容HTTP 1.0 的写法
+            header('Expires: '. gmdate('D, d M Y H:i:s', time() + $second). ' GMT');
+            header_remove('Pragma');
+        }
+    }
+
+    /**
      * @param $message
      * @param $type
      */
