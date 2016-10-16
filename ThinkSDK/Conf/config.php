@@ -8,7 +8,7 @@ return array(
 
     /* 默认设定 */
     'DEFAULT_MODULE'       => 'Index',
-    'DEFAULT_FILTER'       => 'trim,htmlspecialchars',
+    'DEFAULT_FILTER'       => 'trim',
 
     /* 错误设置 */
     'ERROR_MESSAGE'        => '系统错误',
