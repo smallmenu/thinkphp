@@ -521,7 +521,7 @@ function request($url, $post = null, $timeout = 40, $sendcookie = true, $options
 {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] ? $_SERVER['HTTP_USER_AGENT'] : 'cmstopinternalloginuseragent');
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] ? $_SERVER['HTTP_USER_AGENT'] : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:48.0) Gecko/20100101 Firefox/48.0');
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 35);
     curl_setopt($ch, CURLOPT_TIMEOUT, $timeout ? $timeout : 40);
     if ($sendcookie) {
@@ -721,3 +721,37 @@ function assets($src, $version = false)
     }
     return $assets;
 }
+
+/**
+ * 原生的PDO链接，用于特殊需求
+ *
+ * @param $dbConfig
+ */
+function pdo_connect($dbConfig = array())
+{
+    if (empty($dbConfig)) {
+        $dbConfig = array(
+            'host'     => config('DB_HOST'),
+            'user'     => config('DB_USER'),
+            'password' => config('DB_PWD'),
+            'dbname'   => config('DB_NAME'),
+            'charset'  => config('DB_CHARSET'),
+        );
+    }
+
+    $result['status'] = false;
+
+    $dsn = "mysql:dbname={$dbConfig['dbname']};host={$dbConfig['host']}";
+    try {
+        $dbh = new \PDO($dsn, $dbConfig['user'], $dbConfig['password']);
+    } catch (\PDOException $e) {
+        $result['msg'] = 'Connection failed: ' . $e->getMessage();
+        return $result;
+    }
+
+    $result['status'] = true;
+    $result['dbh'] = $dbh;
+
+    return $result;
+}
+
