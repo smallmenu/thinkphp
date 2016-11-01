@@ -197,7 +197,25 @@ class Page
 
     private function showPagesClear()
     {
-        $url = str_replace(urlencode('_[PAGE]'), '', $this->url);
+        $url = $this->url;
+
+        if (strpos($url, urlencode('_[PAGE]'))) {
+            $url = str_replace(urlencode('_[PAGE]'), '', $url);
+            return $url;
+        }
+        if (strpos($url, '?p='.urlencode('[PAGE]'))) {
+            $url = str_replace('?p='.urlencode('[PAGE]'), '', $url);
+            return $url;
+        }
+        if (strpos($url, '&p='.urlencode('[PAGE]'))) {
+            $url = str_replace('&p='.urlencode('[PAGE]'), '', $url);
+            return $url;
+        }
+        if (strpos($url, 'p='.urlencode('[PAGE]'))) {
+            $url = str_replace('p='.urlencode('[PAGE]'), '', $url);
+            return $url;
+        }
+
         return $url;
     }
 }
