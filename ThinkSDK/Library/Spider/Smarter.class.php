@@ -912,11 +912,11 @@ class Smarter
         }
 
         // 最后通用方式，查找头部的meta
-        if(preg_match("/\<meta .*charset=(utf-8|gbk|gb2312)+\"/Usi", $this->html, $match)) {
+        if(preg_match("/\<meta .*charset=\"(utf-8|gbk|gb2312)+\"/Usi", $this->html, $match)) {
             $charset = $match[1];
             return $charset;
         }
-        if(preg_match("/\<meta .*charset=\"(utf-8|gbk|gb2312)+\"/Usi", $this->html, $match)) {
+        if(preg_match("/\<meta .*charset=(utf-8|gbk|gb2312)+\"/Usi", $this->html, $match)) {
             $charset = $match[1];
             return $charset;
         }
