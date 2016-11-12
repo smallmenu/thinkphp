@@ -127,18 +127,18 @@ class Page
         $ret['link'] = array();
 
         //数字连接
-        if ($this->nowPage > $now_cool_page_ceil && ($this->nowPage <= $this->totalPages) && $this->totalPages > 11 && $this->nowPage != 6) {
+        if ($this->nowPage > $now_cool_page && ($this->nowPage <= $this->totalPages) && $this->totalPages > ($this->rollPage + 1) && ($this->nowPage - $now_cool_page > 1 || $this->totalPages > ($this->rollPage + 3))) {
             $ret['first'] = array(
                 'url' => $this->showPagesClear(),
                 'p' => 1,
             );
-            if ($this->nowPage != 7) {
+            if ($this->nowPage > $now_cool_page) {
                 $ret['link'][] = array(
                     'url' => '',
                     'p' => '...',
                 );
             }
-        } elseif (($this->nowPage + $now_cool_page - 1) >= $this->totalPages && $this->totalPages > 11) {
+        } elseif (($this->nowPage + $now_cool_page - 1) >= $this->totalPages && $this->totalPages > ($this->rollPage + 1)) {
             $ret['first'] = array(
                 'url' => $this->showPagesClear(),
                 'p' => 1,
@@ -150,18 +150,21 @@ class Page
                 $page = $i;
             } elseif (($this->nowPage + $now_cool_page - 1) >= $this->totalPages) {
                 $page = $this->totalPages - $this->rollPage + $i;
-            } elseif (($this->totalPages - $this->nowPage == 7 || $this->totalPages - $this->nowPage == 6)) {
+            } elseif (($this->totalPages - $this->nowPage == ($now_cool_page_ceil + 2) || $this->totalPages - $this->nowPage == ($now_cool_page_ceil + 1))) {
                 $page = $this->nowPage - $now_cool_page + $i - 1;
-                if ($this->nowPage == 7) $page = $this->nowPage - $now_cool_page + $i - 1;
+                if ($this->nowPage == ($now_cool_page_ceil + 2)) {
+                    $page = $this->nowPage - $now_cool_page + $i - 1;
+                }
             } else {
                 $page = $this->nowPage - $now_cool_page + $i + 1;
             }
+
             if ($page == 1) {
                 $linkUrl = $this->showPagesClear();
             } else {
                 $linkUrl = $this->url($page);
             }
-            if ($page > 0 && $page != $this->nowPage) {
+            if (ceil($page) > 0 && ceil($page) != $this->nowPage) {
                 if ($page <= $this->totalPages) {
                     $ret['link'][] = array(
                         'url' => $linkUrl,
@@ -171,7 +174,7 @@ class Page
                     break;
                 }
             } else {
-                if ($page > 0 && $this->totalPages != 1) {
+                if (ceil($page) > 0 && $this->totalPages != 1) {
                     $ret['link'][] = array(
                         'url'     => $linkUrl,
                         'p'     => $page,
@@ -180,12 +183,12 @@ class Page
                 }
             }
         }
-        if (($this->totalPages - $this->nowPage > $now_cool_page) && $this->totalPages > 12) {
+        if (($this->totalPages - $this->nowPage > $now_cool_page) && $this->totalPages > ($this->rollPage + 1)) {
             $ret['end'] = array(
                 'url' => $this->url($this->totalPages),
                 'p' => $this->totalPages,
             );
-            if ($this->totalPages - $this->rollPage >= 2 && $this->totalPages > 12) {
+            if ($this->totalPages - $this->rollPage >= 2 && $this->totalPages > ($this->rollPage + 1)) {
                 $ret['link'][] = array(
                     'url' => '',
                     'p' => '...',
@@ -201,6 +204,10 @@ class Page
 
         if (strpos($url, urlencode('_[PAGE]'))) {
             $url = str_replace(urlencode('_[PAGE]'), '', $url);
+            return $url;
+        }
+        if (strpos($url, urlencode('/[PAGE]'))) {
+            $url = str_replace(urlencode('/[PAGE]'), '', $url);
             return $url;
         }
         if (strpos($url, '?p='.urlencode('[PAGE]'))) {
