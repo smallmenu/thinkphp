@@ -81,7 +81,10 @@ class BaiduNews
                     if (preg_match('#&nbsp;&nbsp;(.*)&nbsp;&nbsp;#U', $listHtml, $publisheds)) {
                         $published = trim($publisheds[1]);
                         if (!empty($published)) {
-                            if (strpos($published, '小时') !== false) {
+                            if (strpos($published, '分钟') !== false) {
+                                $published = intval(str_replace('分钟前', '', $published));
+                                $published = date('Y-m-d H:i:s', strtotime("- $published minutes"));
+                            } else if (strpos($published, '小时') !== false) {
                                 $published = intval(str_replace('小时前', '', $published));
                                 $published = date('Y-m-d H:i:s', strtotime("- $published hours"));
                             } else {
@@ -132,7 +135,7 @@ class BaiduNews
             }
         }
 
-        // 校验日期时间，保留最近三天
+        // 校验日期时间，保留最近day天
         $validatorTime = strtotime('-'. $day. ' days');
         $publishedTime = strtotime($data['published']);
         if ($publishedTime < $validatorTime) {
