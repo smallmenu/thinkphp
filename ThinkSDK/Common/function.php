@@ -602,9 +602,9 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
  * 有缓存机制的便捷获取表数据或表主键数据
  *
  * @param $table  表名
- * @param null $id  主键值
- * @param null $field  要获取的记录字段
- * @param bool $force  是否强制获取，强制获取依然会用到static缓存，若忽略所有缓存请使用Model
+ * @param null $id 主键值
+ * @param null $field 要获取的记录字段
+ * @param bool $force 是否强制获取，强制获取依然会用到static缓存，若忽略所有缓存请使用Model
  * @return null
  */
 function table($table, $id = null, $field = null, $force = false)
@@ -709,17 +709,38 @@ function assets($src, $version = false)
 
     if (!empty($src)) {
         if (!$version) {
-            $assets = $assets_url. $src;
+            $assets = $assets_url . $src;
         } else {
             $srcPath = ASSETS_PATH . $src;
 
             $mtime = filemtime($srcPath);
             $mtime = date('YmdHi', $mtime);
             $concat = strpos($src, '?') === false ? '?v=' : '&v=';
-            $assets = $assets_url. $src . $concat . $mtime;
+            $assets = $assets_url . $src . $concat . $mtime;
         }
     }
     return $assets;
+}
+
+/**
+ * 简单的构造资源,MIP要求直接干到页面上
+ *
+ * @param $src
+ * @return string
+ */
+function assets_mip($src)
+{
+    $src = trim($src);
+    $assets_mip = '';
+
+    if (!empty($src)) {
+        $srcPath = ASSETS_PATH . $src;
+        if (is_file($srcPath) && is_readable($srcPath)) {
+            $assets_mip = file_get_contents($srcPath);
+        }
+    }
+    echo $assets_mip;
+    echo PHP_EOL;
 }
 
 /**
