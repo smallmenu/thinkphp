@@ -537,7 +537,7 @@ class Smarter
 
         // 获取真实编码再比较
         $mb_charset = mb_detect_encoding($this->html, 'UTF-8', true);
-        if ($charset != $mb_charset) {
+        if ($mb_charset !== false && $charset != $mb_charset) {
             $charset = $mb_charset;
         }
 
