@@ -532,7 +532,15 @@ class Smarter
      */
     private function formatHtml()
     {
+        // 探测字符编码
         $charset = strtoupper($this->getCharset());
+
+        // 获取真实编码再比较
+        $mb_charset = mb_detect_encoding($this->html, 'UTF-8', true);
+        if ($charset != $mb_charset) {
+            $charset = $mb_charset;
+        }
+
         if ($charset != $this->charset){
             if ($charset == 'GB2312') $charset = 'gbk';
             if (function_exists('mb_convert_encoding'))
@@ -912,11 +920,11 @@ class Smarter
         }
 
         // 最后通用方式，查找头部的meta
-        if(preg_match("/\<meta .*charset=\"(utf-8|gbk|gb2312)+\"/Usi", $this->html, $match)) {
+        if(preg_match("/\<meta .*charset=\"(utf-8|gbk|gb2312)+\"/Ui", $this->html, $match)) {
             $charset = $match[1];
             return $charset;
         }
-        if(preg_match("/\<meta .*charset=(utf-8|gbk|gb2312)+\"/Usi", $this->html, $match)) {
+        if(preg_match("/\<meta .*charset=(utf-8|gbk|gb2312)+\"/Ui", $this->html, $match)) {
             $charset = $match[1];
             return $charset;
         }
