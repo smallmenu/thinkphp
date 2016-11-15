@@ -7,6 +7,10 @@ class BaiduNews
 
     private $requestUrl = null;
 
+    private $keyword = null;
+
+
+
     public function __construct()
     {
 
@@ -15,15 +19,16 @@ class BaiduNews
     /**
      * 根据关键词获取百度新闻标题搜索列表
      *
-     * @param $keyword
-     * @param int $pagesize
-     * @param int $day
+     * @param $keyword 关键词
+     * @param bool $strict 严格模式，会对列表中的title进行完全匹配校验，不受分词影响，默认false
+     * @param int $pagesize  最大只能是50
+     * @param int $day  默认过滤出3天内的新闻
      * @return array|bool
      */
-    public function getListByTitle($keyword, $pagesize = 50, $day = 3)
+    public function getListByTitle($keyword, $strict = false, $pagesize = 50, $day = 3)
     {
         $lists = array();
-        $keyword = trim($keyword);
+        $this->keyword = $keyword = trim($keyword);
         $pagesize = intval($pagesize);
         $baiduTotal = 0;
 
@@ -104,7 +109,7 @@ class BaiduNews
                         'source' => $source,
                         'published' => $published
                     );
-                    if ($this->_validator($cell, $day)) {
+                    if ($this->_validator($cell, $strict, $day)) {
                         $lists[] = $cell;
                     }
                 }
@@ -123,16 +128,22 @@ class BaiduNews
      * 数据校验
      *
      * @param $data
+     * @param $strict
      * @param $day
      * @return bool
      */
-    private function _validator($data, $day)
+    private function _validator($data, $strict, $day)
     {
         // 校验空值
         foreach($data as $key => $d) {
             if (empty($d)) {
                 return false;
             }
+        }
+
+        // 校验严格模式下的标题，确保不被分词
+        if ($strict && stripos($data['title'], $this->keyword) === false) {
+            return false;
         }
 
         // 校验日期时间，保留最近day天
