@@ -113,8 +113,12 @@ class BaiduNews
         }
 
         // 校验严格模式下的标题，确保不被分词
-        if ($strict && stripos($data['title'], $this->keyword) === false) {
-            return false;
+        if ($strict !== false) {
+            if ($strict === true && stripos($data['title'], $this->keyword) === false) {
+                return false;
+            } else if (stripos($data['title'], $strict) === false) {
+                return false;
+            }
         }
 
         // 校验日期时间，保留最近day天
