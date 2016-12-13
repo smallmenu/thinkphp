@@ -1,5 +1,6 @@
 <?php
 namespace ThinkSDK\Library\Wechat;
+
 use Think\Log;
 
 /**
@@ -19,7 +20,7 @@ use Think\Log;
  *   ...
  *
  */
-class TPWechat extends Wechat
+class TpWechat extends Wechat
 {
     /**
      * log overwrite
