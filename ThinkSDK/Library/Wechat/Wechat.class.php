@@ -126,10 +126,10 @@ class Wechat
     const MEDIA_FOREVER_BATCHGET_URL = '/material/batchget_material?';
     const OAUTH_PREFIX = 'https://open.weixin.qq.com/connect/oauth2';
     const OAUTH_AUTHORIZE_URL = '/authorize?';
-    const TAGS_GET_URL = 'tags/get?';
-    const TAGS_GETIDLIST_URL = 'tags/getidlist?';
-    const TAGS_MEMBERS_BATCHTAGGING_URL = 'tags/members/batchtagging?';
-    const TAGS_MEMBERS_BATCHUNTAGGING_URL = 'tags/members/batchuntagging?';
+    const TAGS_GET_URL = '/tags/get?';
+    const TAGS_GETIDLIST_URL = '/tags/getidlist?';
+    const TAGS_MEMBERS_BATCHTAGGING_URL = '/tags/members/batchtagging?';
+    const TAGS_MEMBERS_BATCHUNTAGGING_URL = '/tags/members/batchuntagging?';
     ///多客服相关地址
     const CUSTOM_SERVICE_GET_RECORD = '/customservice/getrecord?';
     const CUSTOM_SERVICE_GET_KFLIST = '/customservice/getkflist?';
