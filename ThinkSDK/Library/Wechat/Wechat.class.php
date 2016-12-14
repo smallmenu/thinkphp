@@ -126,6 +126,10 @@ class Wechat
     const MEDIA_FOREVER_BATCHGET_URL = '/material/batchget_material?';
     const OAUTH_PREFIX = 'https://open.weixin.qq.com/connect/oauth2';
     const OAUTH_AUTHORIZE_URL = '/authorize?';
+    const TAGS_GET_URL = 'tags/get?';
+    const TAGS_GETIDLIST_URL = 'tags/getidlist?';
+    const TAGS_MEMBERS_BATCHTAGGING_URL = 'tags/members/batchtagging?';
+    const TAGS_MEMBERS_BATCHUNTAGGING_URL = 'tags/members/batchuntagging?';
     ///多客服相关地址
     const CUSTOM_SERVICE_GET_RECORD = '/customservice/getrecord?';
     const CUSTOM_SERVICE_GET_KFLIST = '/customservice/getkflist?';
@@ -4552,6 +4556,98 @@ class Wechat
         return false;
     }
 
+    /**
+     * 获取公众号Tags
+     *
+     * @return bool
+     */
+    public function tagsGet()
+    {
+        if (!$this->access_token && !$this->checkAuth())
+            return false;
+        $result = $this->http_get(self::API_URL_PREFIX.self::TAGS_GET_URL.'access_token='.$this->access_token);
+        if ($result)
+        {
+            $json = json_decode($result,true);
+            if (!$json || !empty($json['errcode'])) {
+                $this->errCode = $json['errcode'];
+                $this->errMsg = $json['errmsg'];
+                return false;
+            }
+            return $json['tags'];
+        }
+        return false;
+    }
+
+    /**
+     * 获取用户标签
+     *
+     * @param $data array('openid'=>'aaa')
+     * @return bool
+     */
+    public function tagsGetidlist($data)
+    {
+        if (!$this->access_token && !$this->checkAuth()) return false;
+        $result = $this->http_post(self::API_URL_PREFIX.self::TAGS_GETIDLIST_URL.'access_token='.$this->access_token,self::json_encode($data));
+        if ($result)
+        {
+            $json = json_decode($result,true);
+            if (!$json || !empty($json['errcode'])) {
+                $this->errCode = $json['errcode'];
+                $this->errMsg = $json['errmsg'];
+                return false;
+            }
+            return $json['tagid_list'];
+        }
+        return false;
+    }
+
+    /**
+     * 给批量用户取消标签
+     *
+     * @param $data array('tagid'=>134, 'openid_list'=>array('ocYx1...', 'ocYx2...'))
+     * @return bool
+     */
+    public function tagsMembersBatchuntagging($data)
+    {
+        if (!$this->access_token && !$this->checkAuth()) return false;
+        $result = $this->http_post(self::API_URL_PREFIX.self::TAGS_MEMBERS_BATCHTAGGING_URL.'access_token='.$this->access_token,self::json_encode($data));
+        if ($result)
+        {
+            $json = json_decode($result,true);
+            if (!$json || !empty($json['errcode'])) {
+                $this->errCode = $json['errcode'];
+                $this->errMsg = $json['errmsg'];
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 给批量用户打标签
+     *
+     * @param $data array('tagid'=>134, 'openid_list'=>array('ocYx1...', 'ocYx2...'))
+     * @return bool
+     */
+    public function tagsMembersBatchtagging($data){
+        if (!$this->access_token && !$this->checkAuth()) return false;
+        $result = $this->http_post(self::API_URL_PREFIX.self::TAGS_MEMBERS_BATCHTAGGING_URL.'access_token='.$this->access_token,self::json_encode($data));
+        if ($result)
+        {
+            $json = json_decode($result,true);
+            if (!$json || !empty($json['errcode'])) {
+                $this->errCode = $json['errcode'];
+                $this->errMsg = $json['errmsg'];
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     private function parseSkuInfo($skuInfo) {
         $skuInfo = str_replace("\$", "", $skuInfo);
         $matches = explode(";", $skuInfo);
@@ -4746,7 +4842,6 @@ class Prpcrypt
         }
         return $str;
     }
-
 }
 
 /**
