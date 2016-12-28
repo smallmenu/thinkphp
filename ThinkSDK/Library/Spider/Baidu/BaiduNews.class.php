@@ -69,7 +69,7 @@ class BaiduNews
                     $source = !empty($source) ? $source : '';
 
                     // 时间
-                    $published = !empty($listHtml['time']) ? date('Y-m-d H:i:s') : '';
+                    $published = !empty($listHtml['time']) ? date('Y-m-d H:i:s', $listHtml['time']) : '';
 
                     // 数据过滤
                     $cell = array(

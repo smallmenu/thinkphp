@@ -601,7 +601,7 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
 /**
  * 有缓存机制的便捷获取表数据或表主键数据
  *
- * @param $table  表名
+ * @param string $table  表名
  * @param null $id 主键值
  * @param null $field 要获取的记录字段
  * @param bool $force 是否强制获取，强制获取依然会用到static缓存，若忽略所有缓存请使用Model
