@@ -74,6 +74,41 @@ class Smarter
         $this->formatHtml();
         return true;
     }
+
+    /**
+     * 获取微信标题和内容
+     *
+     * @param $url
+     * @return bool
+     */
+    function getWxInfo($url)
+    {
+        $this->url = $url;
+        $this->getHttp();
+        if(!$this->html){
+            $this->msg = "内容加载失败";
+            return false;
+        }
+
+        if (!preg_match('#<h2 class="rich_media_title(.*)>([\s\S]*)</h2>#isU', $this->html, $titles)) {
+            return false;
+        }
+
+        if (!preg_match('#<div class="rich_media_content(.*)>([\s\S]*)</div>#isU', $this->html, $contents)) {
+            return false;
+        }
+
+        $result['title'] = trim(preg_replace('#\n\r#', '', $titles[2]));
+        $result['content'] = $contents[2];
+        $result['content'] = preg_replace_callback('#data-src=[\'\"](http://mmbiz\.qpic\.cn.+)[\'\"]#isU', function($m){
+            $url = $m[1];
+            return 'src="'.$url.'"';
+        }, $result['content']);
+
+        return $result;
+    }
+
+
     /* 提取标题和内容，返回数据
      * @param string $url 要提取内容的URL地址
      * @return array      返回该URL的标题和正文
