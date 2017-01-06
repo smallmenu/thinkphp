@@ -17,7 +17,7 @@ class BaiduNews
     /**
      * 根据关键词获取百度新闻标题搜索列表
      *
-     * @param $keyword 关键词
+     * @param string $keyword 关键词
      * @param bool $strict 严格模式，会对列表中的title进行完全匹配校验，不受分词影响，默认false
      * @param int $pagesize 最大只能是50
      * @param int $day 默认过滤出3天内的新闻
