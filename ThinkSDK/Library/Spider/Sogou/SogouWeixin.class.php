@@ -20,7 +20,7 @@ class SogouWeixin
      * @param $day
      * @return bool
      */
-    public function getListByKeyword($keyword, $page, $day = 1)
+    public function getListByKeyword($keyword, $page, $day = 3)
     {
         $lists = array();
         $this->keyword = $keyword = trim($keyword);
