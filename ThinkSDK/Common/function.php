@@ -553,7 +553,9 @@ function request($url, $post = null, $timeout = 40, $sendcookie = true, $options
     $content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
     if (!$content_length) $content_length = curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD);
     $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
     curl_close($ch);
+
     return array(
         'httpcode'       => $httpcode,
         'content_length' => $content_length,
@@ -774,5 +776,63 @@ function pdo_connect($dbConfig = array())
     $result['dbh'] = $dbh;
 
     return $result;
+}
+
+/**
+ * 获取代理IP列表
+ *
+ * @return mixed
+ */
+function proxyips()
+{
+    $proxyips_url = config('define.PROXYIPS_URL');
+
+    $results = file_get_contents($proxyips_url);
+    $results = json_decode($results, true);
+
+    if ($results['total'] > 0) {
+        return $results['data'];
+    }
+
+    return false;
+}
+
+/**
+ * 友好的控制台打印
+ *
+ * @param $datas
+ * @param bool $result
+ * @param bool $exit
+ */
+function println($datas, $result = true, $exit = true)
+{
+    static $lasttime = APP_START_TIME;
+
+    $thistime = microtime(true);
+    $usedtime = $thistime - $lasttime;
+    $lasttime = $thistime;
+    $usedtime = sprintf("% 7d ms] ", $usedtime * 1000);
+
+    $memory = memory_get_usage() / 1000000;
+    $memory = sprintf("% 6.1f MB ", $memory);
+
+    $message = date('[m-d H:i:s ');
+    $message .= $memory . $usedtime;
+
+    if (is_array($datas) && !empty($datas)) {
+        $message .= '[';
+        $message .= implode('||', $datas);
+        $message .= '] ';
+    } else {
+        $message .= $datas;
+    }
+
+    $message .= $result ? '[SUCCESS]' : '[FAILED]';
+
+    echo $message;
+    echo PHP_EOL;
+    if ($exit) {
+        exit;
+    }
 }
 
