@@ -69,7 +69,7 @@ class SogouWeixin
                     preg_match('#i="(.*)"#U', $list, $weixinid);
                     preg_match('#<dt>功能介绍：</dt>([\s\S]*)</dd>#U', $list, $weixindesc);
                     preg_match('#认证：</dt>([\s\S]*)</dd>#U', $list, $weixinauth);
-                    preg_match('#<a target="_blank" uigs="main_toweixin_account_article(.*)href="(.*)">(.*)</a>([\s\S]*)\(timeConvert\(\'(.*)\'\)\)</script>#U', $list, $article);
+                    preg_match('#<a target="_blank" uigs="account_article(.*)href="(.*)">(.*)</a>([\s\S]*)\(timeConvert\(\'(.*)\'\)\)</script>#U', $list, $article);
 
                     if (!empty($weixinname[1]) && !empty($weixinhao[1]) && !empty($weixinid) && !empty($article)) {
                         $weixin = array();
