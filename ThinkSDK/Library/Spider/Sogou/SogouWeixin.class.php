@@ -64,16 +64,16 @@ class SogouWeixin
 
                 foreach ($listContent[1] as $key => $list) {
 
-                    preg_match('#data-sourcename="(.*)"#U', $list, $weixinname);
-                    preg_match('#data-username="(.*)"#U', $list, $weixinhao);
-                    preg_match('#i="(.*)"#U', $list, $weixinid);
+                    preg_match('#<p class="tit">([\s\S]*)</p>#U', $list, $weixinname);
+                    preg_match('#<label name="em_weixinhao">(.*)</label>#U', $list, $weixinhao);
+                    preg_match('#" d="(.*)"#U', $list, $weixinid);
                     preg_match('#<dt>功能介绍：</dt>([\s\S]*)</dd>#U', $list, $weixindesc);
                     preg_match('#认证：</dt>([\s\S]*)</dd>#U', $list, $weixinauth);
                     preg_match('#<a target="_blank" uigs="account_article(.*)href="(.*)">(.*)</a>([\s\S]*)\(timeConvert\(\'(.*)\'\)\)</script>#U', $list, $article);
 
                     if (!empty($weixinname[1]) && !empty($weixinhao[1]) && !empty($weixinid) && !empty($article)) {
                         $weixin = array();
-                        $weixin['name'] = trim($weixinname[1]);
+                        $weixin['name'] = trim(strip_tags($weixinname[1]));
                         $weixin['openid'] = trim($weixinid[1]);
                         $weixin['uid'] = trim($weixinhao[1]);
                         $weixin['desc'] = trim(strip_tags($weixindesc[1]));
