@@ -992,7 +992,7 @@ class Smarter
         curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);	//用户访问代理 User-Agent
         curl_setopt($ch, CURLOPT_REFERER, $referer);		//设置 referer
         curl_setopt($ch, CURLOPT_ENCODING, 'gzip');			//设置客户端是否支持 gzip压缩
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);		//跟踪301,已关闭
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);		//跟踪301,已关闭
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);		//返回结果
         if(stripos($this->url,'https:') !== false){				//加载SSL公共证书，请求HTTPS访问
             # Below two option will enable the HTTPS option.
